@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="game-shell">
+        <section class="game-card" aria-labelledby="game-title">
+            <div class="title-block">
+                <p class="eyebrow">Modern Arcade Battle</p>
+                <h1 id="game-title">Rock Paper Scissors Game</h1>
+                <p class="subtitle">Pick your move and challenge the computer.</p>
+            </div>
+
+            <div class="scoreboard" aria-label="Current session scoreboard">
+                <div class="score-item win-score">
+                    <span>Wins</span>
+                    <strong>{{ scoreboard.wins }}</strong>
+                </div>
+                <div class="score-item lose-score">
+                    <span>Losses</span>
+                    <strong>{{ scoreboard.losses }}</strong>
+                </div>
+                <div class="score-item draw-score">
+                    <span>Draws</span>
+                    <strong>{{ scoreboard.draws }}</strong>
+                </div>
+            </div>
+
+            <form class="choice-grid" action="{{ url_for('play') }}" method="POST">
+                <button class="choice-button rock" type="submit" name="choice" value="Rock">
+                    <span class="choice-emoji" aria-hidden="true">🪨</span>
+                    <span>Rock</span>
+                </button>
+                <button class="choice-button paper" type="submit" name="choice" value="Paper">
+                    <span class="choice-emoji" aria-hidden="true">📄</span>
+                    <span>Paper</span>
+                </button>
+                <button class="choice-button scissors" type="submit" name="choice" value="Scissors">
+                    <span class="choice-emoji" aria-hidden="true">✂️</span>
+                    <span>Scissors</span>
+                </button>
+            </form>
+
+            {% if result %}
+                <div class="result-panel result-{{ result|lower }}" role="status" aria-live="polite">
+                    <h2>{{ result_message }}</h2>
+                    <div class="round-summary">
+                        <p><span>You chose</span><strong>{{ player_choice }}</strong></p>
+                        <p><span>Computer chose</span><strong>{{ computer_choice }}</strong></p>
+                    </div>
+                    <a class="play-again" href="{{ url_for('home') }}">Play Again</a>
+                </div>
+            {% else %}
+                <div class="waiting-panel" aria-live="polite">
+                    <p>Make your first move to start the match.</p>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        Developed by Debonkita Dutta
+    </footer>
+</body>
+</html>
